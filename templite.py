@@ -109,8 +109,6 @@ class Templite(object):
         # add write method
         def write(*args):
             for value in args:
-                if isinstance(value, unicode):
-                    value = value.encode(self.encoding)
                 stack.append(str(value))
         namespace['write'] = write
         # add include method
@@ -126,5 +124,5 @@ class Templite(object):
             stack.append(t.render(**namespace))
         namespace['include'] = include
         # execute template code
-        exec self._code in namespace
+        exec(self._code, namespace)
         return ''.join(stack)
